@@ -19,7 +19,7 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
 
     companion object {
         private val TAG = MyWorker::class.java.simpleName
-        const val APP_ID = "94f2a64a3b940985a268823eaa344fcb"
+        const val APP_ID = "YOUR_KEY_HERE"
         const val EXTRA_CITY = "city"
         const val NOTIFICATION_ID = 1
         const val CHANNEL_ID = "channel_01"
@@ -37,7 +37,7 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
         Log.d(TAG, "getCurrentWeather: Mulai.....")
         Looper.prepare()
         val client = SyncHttpClient()
-        val url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$APP_ID"
+        val url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=${BuildConfig.APP_ID}"
         Log.d(TAG, "getCurrentWeather: $url")
         client.post(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header?>?, responseBody: ByteArray) {
