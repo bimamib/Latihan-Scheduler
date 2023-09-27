@@ -3,6 +3,8 @@ package com.bima.myworkmanager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.bima.myworkmanager.databinding.ActivityMainBinding
 
@@ -20,6 +22,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        TODO("Not yet implemented")
+        when (view.id) {
+            R.id.btnOneTimeTask -> startOneTimeTask()
+        }
+    }
+
+    private fun startOneTimeTask() {
+        binding.textStatus.text = getString(R.string.status)
+        val data = Data.Builder()
+            .putString(MyWorker.EXTRA_CITY, binding.editCity.text.toString())
+            .build()
+        val oneTimeWorkRequest = OneTimeWorkRequest.Builder(MyWorker::class.java)
+            .setInputData(data)
+            .build()
+        workManager.enqueue(oneTimeWorkRequest)
+        workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
+            .observe(this@MainActivity) {
+                val status = workInfo.state.name
+                binding.textStatus.append("\n" + status)
+            }
     }
 }
