@@ -10,6 +10,8 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import android.Manifest
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import com.bima.myworkmanager.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -49,6 +51,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.textStatus.text = getString(R.string.status)
         val data = Data.Builder()
             .putString(MyWorker.EXTRA_CITY, binding.editCity.text.toString())
+            .build()
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
         val oneTimeWorkRequest = OneTimeWorkRequest.Builder(MyWorker::class.java)
             .setInputData(data)
