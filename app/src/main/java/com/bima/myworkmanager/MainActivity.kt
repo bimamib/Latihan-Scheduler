@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
+import android.Manifest
 import com.bima.myworkmanager.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             .build()
         workManager.enqueue(oneTimeWorkRequest)
         workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
-            .observe(this@MainActivity) {
+            .observe(this@MainActivity) { workInfo ->
                 val status = workInfo.state.name
                 binding.textStatus.append("\n" + status)
             }
